@@ -1,4 +1,5 @@
 import "../global.css";
+import GUI from "lil-gui";
 import * as THREE from "three";
 import { Renderer } from "./lib/renderer";
 import { Geometry } from "./lib/geometry";
@@ -18,3 +19,7 @@ renderer.animate(() => {
   const time = Date.now() * 0.0001;
   // cube.mesh.rotation.y = time * 30;
 });
+
+const gui = new GUI();
+
+const config = {};
