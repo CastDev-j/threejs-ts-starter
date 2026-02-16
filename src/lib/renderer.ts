@@ -1,11 +1,13 @@
 import * as THREE from "three";
 import Stats from "stats.js";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
-export class WebGLRenderer {
+export class Renderer {
   public scene: THREE.Scene;
   private camera: THREE.PerspectiveCamera;
   private renderer: THREE.WebGLRenderer;
   private stats: Stats;
+  private controls: OrbitControls;
 
   constructor(canvas: HTMLCanvasElement) {
     this.scene = new THREE.Scene();
@@ -16,9 +18,16 @@ export class WebGLRenderer {
     this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     this.camera.position.z = 5;
 
-    this.renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+    this.renderer = new THREE.WebGLRenderer({
+      canvas,
+      antialias: true,
+    });
     this.renderer.setSize(width, height);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
+    this.controls.enableDamping = true;
+    this.controls.dampingFactor = 0.05;
 
     this.stats = new Stats();
     this.stats.showPanel(0);
@@ -31,6 +40,7 @@ export class WebGLRenderer {
   }
 
   render(): void {
+    this.controls.update();
     this.renderer.render(this.scene, this.camera);
   }
 
@@ -61,6 +71,7 @@ export class WebGLRenderer {
   }
 
   dispose(): void {
+    this.controls.dispose();
     this.renderer.dispose();
     this.stats.dom.remove();
   }

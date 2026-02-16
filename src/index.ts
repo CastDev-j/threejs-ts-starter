@@ -1,21 +1,20 @@
 import "../global.css";
-import { Cube } from "./lib/cube";
-import { WebGLRenderer } from "./webgl/renderer";
+import * as THREE from "three";
+import { Renderer } from "./lib/renderer";
+import { Geometry } from "./lib/geometry";
 
 const canvas = document.getElementById("webgl-canvas") as HTMLCanvasElement;
 if (!canvas) {
   throw new Error("Canvas element not found");
 }
 
-const renderer = new WebGLRenderer(canvas);
+const renderer = new Renderer(canvas);
 
-const cube = new Cube({ size: 1, color: 0xffffff, wireframe: true });
+const geometry = new Geometry({ wireframe: false, size: 6 });
 
-renderer.scene.add(cube.getMesh());
+renderer.scene.add(geometry.mesh);
 
 renderer.animate(() => {
   const time = Date.now() * 0.0001;
-
-  cube.getMesh().rotation.x = time;
-  cube.getMesh().rotation.y = time;
+  // cube.mesh.rotation.y = time * 30;
 });
