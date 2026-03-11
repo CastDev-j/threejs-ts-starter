@@ -54,6 +54,9 @@ export class Geometry {
       fragmentShader,
       uniforms: {
         uTime: { value: 0 },
+        uResolution: {
+          value: new THREE.Vector2(window.innerWidth, window.innerHeight),
+        },
         uColor: { value: this.color },
       },
     });
@@ -75,6 +78,13 @@ export class Geometry {
 
   updateTime(time: number) {
     (this.mesh.material as THREE.ShaderMaterial).uniforms.uTime.value = time;
+  }
+
+  updateResolution(width: number, height: number) {
+    (this.mesh.material as THREE.ShaderMaterial).uniforms.uResolution.value.set(
+      width,
+      height,
+    );
   }
 
   updateEdgeCount(edgeCount: number) {

@@ -17,6 +17,8 @@ const config = {
 
 const geometry = new Geometry({
   wireframe: config.wireframe,
+  edgeCount: 4,
+  rotation: new THREE.Euler(0, Math.PI / 4, 0),
 });
 
 renderer.scene.add(geometry.mesh);
@@ -31,4 +33,6 @@ let startTime = Date.now() * 0.001;
 renderer.animate(() => {
   const base = Date.now() * 0.001;
   const elapsedTime = base - startTime;
+  geometry.updateTime(elapsedTime);
+  geometry.updateResolution(window.innerWidth, window.innerHeight);
 });
